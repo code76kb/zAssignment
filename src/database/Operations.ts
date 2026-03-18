@@ -16,14 +16,14 @@ export const OperationsLocalDB = {
             params.push(q, q, q);
         }
 
-        sql += ` LIMIT ? OFFSET ?`;
+        sql += ` ORDER BY name ASC LIMIT ? OFFSET ?`;
         params.push(limit, offset);
 
         const res = await db?.execute(sql, params);
         const rows = res?.rows?._array ?? [];
         return {
             users: rows as UserLocal[],
-            newNextToken: rows.length === limit ? offset + limit : 0,
+            newNextToken: offset + rows.length
         };
     },
 

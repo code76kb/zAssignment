@@ -17,6 +17,7 @@ import PagerView, {
 } from 'react-native-pager-view';
 import SearchBar from '../components/SearchBar';
 import AddNewUserModal from '../components/AddNewUserModel';
+import { debounce } from '../util';
 const { width } = Dimensions.get('window');
 
 const TAG = 'HOME-SCREEN :';
@@ -29,6 +30,7 @@ function HomeScreen() {
   const [showNewUserModel, setShowNewUserModel] = useState(false);
 
   const { users, loading, load, setQuery } = usersStore();
+  const debouncedSearch = debounce(setQuery, 400);
 
   useEffect(() => {
     console.log(TAG, 'DidMount');
@@ -39,7 +41,8 @@ function HomeScreen() {
   }, []);
 
   function searchUsers(term: string) {
-    setQuery(term);
+    // setQuery(term); 
+    debouncedSearch(term)
   }
 
   function onPageSelected(e: PagerViewOnPageSelectedEvent) {
@@ -54,7 +57,7 @@ function HomeScreen() {
   function toggleNewUserModel() {
     setShowNewUserModel(s => !s);
     //Refresh for new Entry
-    load();
+    // load();
   }
 
   return (
@@ -81,7 +84,7 @@ function HomeScreen() {
 
         <PagerView
           ref={pagerRef}
-          style={{ flex: 1 }}
+          style={{ flex: 1,}}
           initialPage={0}
           onPageSelected={onPageSelected}
         >

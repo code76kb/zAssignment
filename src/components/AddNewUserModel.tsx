@@ -11,6 +11,7 @@ import { colors } from '../../theme';
 import Tabs from './Tabs';
 import { Repository } from '../repository';
 import { UserNew } from '../types/User';
+import { usersStore } from '../stateManager/Store';
 
 const NAME_REGEX = /^[A-Za-z ]{1,50}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -29,6 +30,8 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
   const [email, setEmail] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+ const { load } = usersStore();
+  
 
   function validate() {
     const first = firstName.trim();
@@ -65,6 +68,8 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
     };
     setLoading(true)
     const res =  await Repository.addNewUser(newUser);
+    //Refresh for new User
+    load();
     setLoading(false);
     closeModel();
   }

@@ -5,6 +5,7 @@ import { User } from "../types/User";
 import { ListUsersResponse } from "../types/GraphQL";
 import { Repository } from "../repository";
 
+const TAG = "Store :"
 
 type UsersState = {
     users: User[],
@@ -23,6 +24,8 @@ export const usersStore = create<UsersState>((set, get) => (
         loading: false,
         query: '',
         setQuery: (q: string) => {
+            console.debug(TAG,"Searched :",q);
+            
             set({ query: q, nextToken: 0, users: [] });
             get().load(); // reload from start
         },
@@ -32,6 +35,7 @@ export const usersStore = create<UsersState>((set, get) => (
                 const { nextToken, query } = get();
                 // const res = await client.request<ListUsersResponse>(LIST_USERS, { limit: 2, nextToken: nextToken })
                 const { users, newNextToken } = await Repository.getUsers(2, nextToken ?? 0, query);
+                console.log(TAG,"load newNextToken:",newNextToken)
                 set(state => ({
                     users: nextToken ? [...state.users, ...users] : users,
                     nextToken: newNextToken,
@@ -39,7 +43,7 @@ export const usersStore = create<UsersState>((set, get) => (
                 }));
             } catch (error) {
                 set({ loading: false });
-                console.error("Error loadUsers :", error);
+                console.error(TAG, "Error loadUsers :", error);
             }
         }
     }

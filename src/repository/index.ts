@@ -7,9 +7,9 @@ import { User, UserNew } from "../types/User";
 const TAG = "Repository :";
 
 async function getUsers(limit: number = 2, nextToken: number, query?: string) {
-    //Local
+    //Local-DB check
     const local = await OperationsLocalDB.getUsers(limit, nextToken, query);
-    console.log(TAG, "getUSers At Local :", local.users.length);
+    console.log(TAG, "getUSers At LocalLen :", local.users.length);
     if (local.users.length) {
         console.log(TAG, "getUSers At Local :", local);
         return { users: local.users, newNextToken: local.newNextToken };
@@ -29,8 +29,9 @@ async function getUsers(limit: number = 2, nextToken: number, query?: string) {
         users.map(u => ({ ...u, _synced: 1 }))
     );
 
-    //GEt From DB again
+    //GEt From Local-DB 
     const local_ = await OperationsLocalDB.getUsers(limit, nextToken, query);
+    console.log(TAG, "getUSers At Re-fetch LocalLen :", local_.users.length);
     return { users: local_.users, newNextToken: local_.newNextToken };
 
 }
