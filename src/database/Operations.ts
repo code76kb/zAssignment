@@ -79,9 +79,19 @@ export const OperationsLocalDB = {
 
     async markSynced(id: string) {
         const db = await getDB();
-        await db?.execute(
-            'UPDATE users SET _synced = 1 WHERE id = ?;',
-            [id]
-        );
+        await db?.execute('UPDATE users SET _synced = 1 WHERE id = ?;', [id]);
     },
+
+    async updateUser(user: UserLocal) {
+        try {
+            const db = await getDB();
+            await db?.execute(`UPDATE users 
+            SET name = ?, email = ?, role = ?, _synced = ?
+            WHERE id=?
+            `, [user.name, user.email, user.role, 1, user.id])
+        }
+        catch (error) {
+
+        }
+    }
 };

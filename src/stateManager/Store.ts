@@ -34,7 +34,7 @@ export const usersStore = create<UsersState>((set, get) => (
                 set({ loading: true });
                 const { nextToken, query } = get();
                 // const res = await client.request<ListUsersResponse>(LIST_USERS, { limit: 2, nextToken: nextToken })
-                const { users, newNextToken } = await Repository.getUsers(2, nextToken ?? 0, query);
+                const { users, newNextToken } = await Repository.getUsers(10, nextToken ?? 0, query);
                 console.log(TAG,"load newNextToken:",newNextToken)
                 set(state => ({
                     users: nextToken ? [...state.users, ...users] : users,

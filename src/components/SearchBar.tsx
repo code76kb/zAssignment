@@ -47,17 +47,18 @@ export default function SearchBar({ onChangeText, onToggle }: Props) {
   }
 
   return (
-    <Animated.View style={[styles.container, { width: widthAnimated }]}>
+    <Animated.View style={[styles.container, { width: widthAnimated }]} testID={"search_bar"}>
       {isExpanded && (
         <TextInput
           style={styles.input}
           placeholder={'Search'}
           onChangeText={onChangeText}
           autoFocus
+          testID='search_input_field'
         />
       )}
-      <TouchableOpacity onPress={onIconClick} style={styles.iconWrapper}>
-        <Text style={{ fontSize: 20, color: 'black' }}>
+      <TouchableOpacity onPress={onIconClick} style={styles.iconWrapper} testID='search_toggle_btn'>
+        <Text style={{ fontSize: 20, color: colors.primary }}>
           {isExpanded ? 'X' : 'Q'}
         </Text>
       </TouchableOpacity>

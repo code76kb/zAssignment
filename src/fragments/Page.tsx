@@ -49,18 +49,12 @@ function Page({ role }: Props) {
   const debouncedLoad = debounce(load,400);
 
   return (
-    // <FlatList
-    //   style={{ flex: 1 }}
-    //   data={filterUsers}
-    //   renderItem={UserListItem}
-    // />
     <SectionList
       sections={sections}
       keyExtractor={(item, index) => `${item.id}_${index}`}
       renderItem={UserListItem}
       refreshing={loading}
       onRefresh={()=>setQuery("")}
-    //   onRefresh={load}
       onEndReached={debouncedLoad}
       onEndReachedThreshold={0.9}
       renderSectionHeader={({ section: { title } }) => (

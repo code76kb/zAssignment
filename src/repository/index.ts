@@ -2,7 +2,7 @@ import { OperationsLocalDB } from "../database/Operations";
 import client from "../network";
 import { LIST_USERS } from "../network/Queries";
 import { ListUsersResponse } from "../types/GraphQL";
-import { User, UserNew } from "../types/User";
+import { User, UserLocal, UserNew } from "../types/User";
 
 const TAG = "Repository :";
 
@@ -45,6 +45,10 @@ async function addNewUser(user: UserNew) {
         return false;
         console.error(TAG, "Error addNewUser :", error);
     }
+}
+
+async function  updateUser(user:UserLocal) {
+    
 }
 
 

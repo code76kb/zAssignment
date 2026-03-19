@@ -30,8 +30,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
   const [email, setEmail] = useState('');
   const [roleIndex, setRoleIndex] = useState(0);
   const [loading, setLoading] = useState(false);
- const { load } = usersStore();
-  
+  const { load } = usersStore();
 
   function validate() {
     const first = firstName.trim();
@@ -66,11 +65,11 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
       role: TABS[roleIndex].label,
       _synced: 0,
     };
-    setLoading(true)
-    const res =  await Repository.addNewUser(newUser);
+    setLoading(true);
+    const res = await Repository.addNewUser(newUser);
+    setLoading(false);
     //Refresh for new User
     load();
-    setLoading(false);
     closeModel();
   }
 
@@ -85,7 +84,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
   }
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal visible={visible} transparent animationType="fade" testID='new_user_model'>
       <View
         style={{
           flex: 1,
@@ -102,7 +101,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
             gap: 20,
           }}
         >
-          <TouchableOpacity style={{ padding: 6 }} onPress={closeModel}>
+          <TouchableOpacity style={{ padding: 6 }} onPress={closeModel} testID='close_model_btn'>
             <Text style={{ fontSize: 20, color: colors.primary }}>X</Text>
           </TouchableOpacity>
 
@@ -120,6 +119,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
                 marginBottom: 12,
                 padding: 8,
               }}
+              testID='first_name_input_field'
             />
 
             <TextInput
@@ -131,6 +131,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
                 marginBottom: 12,
                 padding: 8,
               }}
+               testID='last_name_input_field'
             />
 
             <TextInput
@@ -144,6 +145,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
                 marginBottom: 16,
                 padding: 8,
               }}
+               testID='email_input_field'
             />
           </View>
 
@@ -167,6 +169,7 @@ export default function AddNewUserModal({ visible, onClose }: Props) {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
+               testID='create_new_user_btn'
             >
               <Text style={{ color: 'white', fontWeight: '500' }}>
                 {'Create User'}
